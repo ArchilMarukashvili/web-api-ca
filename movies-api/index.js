@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import usersRouter from './api/users';
 import mongoose from 'mongoose';
-import authenticate from './authenticate';
+import moviesRouter from './api/movies'; 
 
 // other imports
 import cors from 'cors';
@@ -44,6 +44,8 @@ app.use(express.json());
 
 // Serve static files from the public folder (so GET / will return public/index.html)
 app.use(express.static('public'));
+
+app.use('/api/movies', moviesRouter); 
 
 app.use('/api/users', usersRouter);
 
