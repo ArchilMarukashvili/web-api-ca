@@ -1,9 +1,11 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import usersRouter from "./api/users/index.js";
-import moviesRouter from './api/movies';
+import moviesRouter from './api/movies/index.js';
 import authenticate from './authenticate';
-import connectDB from "./db/index.js";
+import connectDB from './db';
+
+
 
 
 
@@ -31,18 +33,22 @@ app.use(cors());
 
 const port = process.env.PORT || 8080;
 
-await connectDB();
+connectDB();
 
 app.use(express.json());
 
-app.use(express.static());
 
 app.use('/api/users', usersRouter);
 
 app.use('/api/movies', moviesRouter);
 
+app.use('api/genres', moviesRouter);
+
+app.use(express.static('public'));
 
 app.use(errHandler);
+
+
 
 
 app.listen(port, () => {
