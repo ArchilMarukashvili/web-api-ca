@@ -64,7 +64,7 @@ async function authenticateUser(req, res) {
     } else {
         res.status(401).json({ success: false, msg: 'Wrong password.' });
     }
-}
+}   
 
 
 export default router;

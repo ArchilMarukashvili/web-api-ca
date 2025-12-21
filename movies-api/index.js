@@ -1,8 +1,9 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import usersRouter from './api/users';
+import moviesRouter from './api/movies';
 import mongoose from 'mongoose';
-import moviesRouter from './api/movies'; 
+import authenticate from './authenticate';
 
 // other imports
 import cors from 'cors';
@@ -13,7 +14,7 @@ dotenv.config();
 // --- MONGOOSE CONNECTION ---
 (async () => {
   try {
-    await mongoose.connect('mongodb://127.0.0.1:27017/tasky');
+    await mongoose.connect('mongodb://127.0.0.1:27017/db');
     console.log('MongoDB connected');
   } catch (err) {
     console.error('MongoDB connection error:', err);
@@ -45,9 +46,10 @@ app.use(express.json());
 // Serve static files from the public folder (so GET / will return public/index.html)
 app.use(express.static('public'));
 
-app.use('/api/movies', moviesRouter); 
-
 app.use('/api/users', usersRouter);
+
+app.use('/api/movies', authenticate, moviesRouter);
+
 
 app.use(errHandler);
 
