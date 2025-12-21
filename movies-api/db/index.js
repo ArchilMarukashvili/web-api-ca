@@ -1,21 +1,11 @@
-import dotenv from 'dotenv';
-import mongoose from 'mongoose';
-import './db';
-
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 dotenv.config();
 
-// Connect to database
-mongoose.connect(process.env.MONGO_DB);
-// mongoose.connect('mongodb://127.0.0.1:27017/tasky');
-const db = mongoose.connection;
+const connectDB = async () => {
+  await mongoose.connect(process.env.MONGO_DB);
+  console.log(`database connected to ${mongoose.connection.name} on ${mongoose.connection.host}`);
+};
 
-db.on('error', (err) => {
-    console.log(`database connection error: ${err}`);
-});
-db.on('disconnected', () => {
-    console.log('database disconnected');
-});
-db.once('open', () => {
-    console.log(`database connected to ${db.name} on ${db.host}`);
-})
+export default connectDB;
